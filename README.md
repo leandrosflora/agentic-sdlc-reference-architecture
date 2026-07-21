@@ -58,6 +58,13 @@ A plataforma adota **núcleo agnóstico com adaptadores específicos por ferrame
 - [Matriz agente × ferramenta × operação](docs/tool-integration-matrix.md)
 - [Jornada completa de uma mudança](docs/change-journey.md)
 
+## Comece por aqui
+
+- [Documentação publicada](https://leandrosflora.github.io/agentic-sdlc-reference-architecture/)
+- [Runbook operacional](docs/runbook.md)
+- [Runtime funcional](https://github.com/leandrosflora/agentic-sdlc-runtime)
+- [Aplicação demo](https://github.com/leandrosflora/agentic-sdlc-demo-app)
+
 ## Artefatos implementáveis
 
 O P1 adiciona contratos e um golden path executável, sem dependências externas:
