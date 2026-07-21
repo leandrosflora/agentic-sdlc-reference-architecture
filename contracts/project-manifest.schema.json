@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/project-manifest.schema.json",
+  "title": "Agentic SDLC project onboarding manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "api_version",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "api_version": {
+      "const": "agentic-sdlc/v1"
+    },
+    "kind": {
+      "const": "Project"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "owner"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "work_management",
+        "source_control",
+        "delivery",
+        "observability",
+        "autonomy",
+        "agents"
+      ],
+      "properties": {
+        "work_management": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "project"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            },
+            "project": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "source_control": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "repositories"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            },
+            "repositories": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "delivery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "observability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "autonomy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "max_risk",
+            "production_approval"
+          ],
+          "properties": {
+            "max_risk": {
+              "enum": [
+                "R0",
+                "R1",
+                "R2",
+                "R3",
+                "R4"
+              ]
+            },
+            "production_approval": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "agents": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "product",
+              "architecture",
+              "developer",
+              "test",
+              "security",
+              "reviewer",
+              "release",
+              "incident"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
