@@ -58,6 +58,25 @@ A plataforma adota **núcleo agnóstico com adaptadores específicos por ferrame
 - [Matriz agente × ferramenta × operação](docs/tool-integration-matrix.md)
 - [Jornada completa de uma mudança](docs/change-journey.md)
 
+## Artefatos implementáveis
+
+O P1 adiciona contratos e um golden path executável, sem dependências externas:
+
+- [Manifesto de onboarding](contracts/project-manifest.schema.json) e [exemplo](examples/project-manifest.instance.json)
+- [Contrato canônico de integração](contracts/canonical-integration.schema.json) e [exemplo](examples/canonical-integration.instance.json)
+- [Modelo de contexto](docs/context-model.md)
+- [Change Set multi-repositório](docs/multi-repository-change-set.md), [schema](contracts/change-set.schema.json) e [exemplo](examples/change-set.instance.json)
+- [Golden path executável](scripts/run_golden_path.py)
+
+Execute:
+
+~~~bash
+python3 scripts/run_golden_path.py
+python3 scripts/validate.py
+~~~
+
+O golden path carrega o projeto, recebe um evento canônico, valida dependências de três repositórios, percorre agentes e gates, vincula aprovação ao conjunto e produz um evidence bundle determinístico.
+
 ## Implementações operacionais
 
 Este repositório é documentação de arquitetura, sem código de runtime. Os 8 papéis acima possuem definições e skeletons em repositórios próprios. Eles não precisam ser oito serviços persistentes: são executados pelo runtime compartilhado. Os repositórios são nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
@@ -186,7 +205,7 @@ As fórmulas e dimensões obrigatórias estão em [`docs/metrics.md`](docs/metri
 
 ```text
 .
-├── contracts/                 # schemas de eventos e mudanças
+├── contracts/                 # schemas de eventos, onboarding, integração e Change Set
 ├── docs/
 │   ├── adr/                   # decisões arquiteturais
 │   ├── architecture.md        # componentes e fluxos
@@ -194,12 +213,14 @@ As fórmulas e dimensões obrigatórias estão em [`docs/metrics.md`](docs/metri
 │   ├── agent-runtime.md       # execução, estado e composição
 │   ├── tool-integration-matrix.md # agentes e ferramentas
 │   ├── change-journey.md      # fluxo ponta a ponta
+│   ├── context-model.md       # montagem e proteção de contexto
+│   ├── multi-repository-change-set.md # coordenação multi-repo
 │   ├── governance.md          # papéis, gates e autorização
 │   ├── metrics.md             # SLOs e métricas
 │   └── threat-model.md        # ameaças e controles
 ├── examples/                  # workflow, change envelope e trilhas de eventos (aprovado, rejeitado, rollback), validáveis contra os schemas
 ├── policies/                  # policy-as-code (OPA/Rego)
-└── scripts/                   # validação local sem dependências externas
+└── scripts/                   # validação e golden path executável
 ```
 
 ## Validação local
