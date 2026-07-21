@@ -98,20 +98,34 @@ pip install -r requirements-docs.txt
 mkdocs serve
 ~~~
 
+## Runtime funcional compartilhado
+
+O runtime está implementado em [agentic-sdlc-runtime](https://github.com/leandrosflora/agentic-sdlc-runtime). Ele executa as definições declarativas dos oito agentes e fornece:
+
+- Context Builder com proveniência, classificação e minimização;
+- Model Gateway fake e OpenAI-compatible;
+- MCP fake para testes com grants por papel;
+- eventos compatíveis com agent-event.schema.json;
+- evidence bundles persistidos por hash;
+- checkpoints atômicos e retomada sem repetir model call;
+- CLI, demo, testes e CI em Python 3.11/3.12.
+
+As definições canônicas estão em [agents/](https://github.com/leandrosflora/agentic-sdlc-runtime/tree/master/agents). Os repositórios sdlc-role-agent continuam como adapters/scaffolds específicos de papel; não são serviços persistentes nem a fonte canônica do ciclo de execução.
+
 ## Implementações operacionais
 
-Este repositório é documentação de arquitetura, sem código de runtime. Os 8 papéis acima possuem definições e skeletons em repositórios próprios. Eles não precisam ser oito serviços persistentes: são executados pelo runtime compartilhado. Os repositórios são nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
+Este repositório mantém arquitetura, contratos, policies e golden paths. O código do runtime compartilhado fica no [agentic-sdlc-runtime](https://github.com/leandrosflora/agentic-sdlc-runtime). Os 8 papéis acima possuem definições e skeletons em repositórios próprios. Eles não precisam ser oito serviços persistentes: são executados pelo runtime compartilhado. Os repositórios são nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
 
 | Agente | Repositório | Estado |
 |---|---|---|
-| Product | [sdlc-product-agent](https://github.com/leandrosflora/sdlc-product-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
-| Architecture | [sdlc-architecture-agent](https://github.com/leandrosflora/sdlc-architecture-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
-| Developer | [sdlc-developer-agent](https://github.com/leandrosflora/sdlc-developer-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
-| Test | [sdlc-test-agent](https://github.com/leandrosflora/sdlc-test-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
-| Security | [sdlc-security-agent](https://github.com/leandrosflora/sdlc-security-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
-| Reviewer | [sdlc-reviewer-agent](https://github.com/leandrosflora/sdlc-reviewer-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
-| Release | [sdlc-release-agent](https://github.com/leandrosflora/sdlc-release-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
-| Incident | [sdlc-incident-agent](https://github.com/leandrosflora/sdlc-incident-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
+| Product | [sdlc-product-agent](https://github.com/leandrosflora/sdlc-product-agent) | adapter/scaffold; definição canônica no runtime |
+| Architecture | [sdlc-architecture-agent](https://github.com/leandrosflora/sdlc-architecture-agent) | adapter/scaffold; definição canônica no runtime |
+| Developer | [sdlc-developer-agent](https://github.com/leandrosflora/sdlc-developer-agent) | adapter/scaffold; definição canônica no runtime |
+| Test | [sdlc-test-agent](https://github.com/leandrosflora/sdlc-test-agent) | adapter/scaffold; definição canônica no runtime |
+| Security | [sdlc-security-agent](https://github.com/leandrosflora/sdlc-security-agent) | adapter/scaffold; definição canônica no runtime |
+| Reviewer | [sdlc-reviewer-agent](https://github.com/leandrosflora/sdlc-reviewer-agent) | adapter/scaffold; definição canônica no runtime |
+| Release | [sdlc-release-agent](https://github.com/leandrosflora/sdlc-release-agent) | adapter/scaffold; definição canônica no runtime |
+| Incident | [sdlc-incident-agent](https://github.com/leandrosflora/sdlc-incident-agent) | adapter/scaffold; definição canônica no runtime |
 
 Cada repo chama `opa eval` diretamente contra o rego deste repositório (por padrão, checkout irmão no mesmo diretório pai) — a política de autorização não é duplicada nos agentes. As ações do papel (ex.: `repository.write` do developer, `production.deploy` do release) ainda são handlers stub: autorizadas ou negadas de acordo com a política real, mas sem efeito nem chamada a LLM implementados.
 
