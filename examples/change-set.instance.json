@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "change_set_id": "CSET-1001",
+  "change_id": "CHG-1001",
+  "project_id": "payments-platform",
+  "risk": "R2",
+  "repositories": [
+    {
+      "id": "api",
+      "repository": "company/payments-api",
+      "component": "api",
+      "base_ref": "main",
+      "head_ref": "agent/CHG-1001-api",
+      "depends_on": [],
+      "artifact": {
+        "uri": "oci://registry/payments-api",
+        "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    },
+    {
+      "id": "web",
+      "repository": "company/payments-web",
+      "component": "frontend",
+      "base_ref": "main",
+      "head_ref": "agent/CHG-1001-web",
+      "depends_on": [
+        "api"
+      ],
+      "artifact": {
+        "uri": "oci://registry/payments-web",
+        "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    },
+    {
+      "id": "infra",
+      "repository": "company/payments-infra",
+      "component": "deployment",
+      "base_ref": "main",
+      "head_ref": "agent/CHG-1001-infra",
+      "depends_on": [
+        "api",
+        "web"
+      ],
+      "artifact": {
+        "uri": "oci://registry/payments-infra",
+        "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    }
+  ],
+  "deployment_order": [
+    "api",
+    "web",
+    "infra"
+  ],
+  "rollback": {
+    "mode": "coordinated",
+    "verified": true,
+    "order": [
+      "infra",
+      "web",
+      "api"
+    ]
+  }
+}
