@@ -154,6 +154,39 @@ def validate_golden_path() -> None:
     assert len(result["evidence_bundle"]) == len(result["events"])
 
 
+
+def validate_consumption_layer() -> None:
+    for relative_path in (
+        "mkdocs.yml",
+        "docs/index.md",
+        "docs/portal/index.html",
+        "docs/portal/styles.css",
+        "docs/portal/app.js",
+        "docs/portal/dashboard-data.json",
+        ".github/workflows/agentic-feedback.yml",
+        ".github/workflows/pages.yml",
+    ):
+        assert (ROOT / relative_path).is_file(), f"missing consumption artifact: {relative_path}"
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as directory:
+        dashboard_path = Path(directory) / "dashboard.json"
+        summary_path = Path(directory) / "summary.md"
+        subprocess.run(
+            [sys.executable, str(ROOT / "scripts/render_consumption_artifacts.py"),
+             "--dashboard", str(dashboard_path), "--summary", str(summary_path)],
+            check=True,
+        )
+        dashboard = json.loads(dashboard_path.read_text(encoding="utf-8"))
+        summary = summary_path.read_text(encoding="utf-8")
+        assert dashboard["status"] == "completed"
+        assert dashboard["cost"]["total_usd"] > 0
+        assert len(dashboard["events"]) == len(dashboard["evidence_bundle"])
+        assert len(dashboard["repositories"]) >= 1
+        assert "<!-- agentic-sdlc-summary -->" in summary
+        assert dashboard["change_id"] in summary
+
+
 def validate_docs() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     for agent in EXPECTED_AGENTS:
@@ -177,4 +210,5 @@ if __name__ == "__main__":
     validate_examples_against_contracts()
     validate_change_set()
     validate_golden_path()
-    print("OK: schemas, onboarding, integrations, change set, golden path, controls, and documentation")
+    validate_consumption_layer()
+    print("OK: contracts, golden path, portal, dashboard, PR feedback, controls, and documentation")

@@ -1,0 +1,153 @@
+{
+  "workflow": "golden-path-v1",
+  "project_id": "payments-platform",
+  "change_id": "CHG-1001",
+  "change_set_id": "CSET-1001",
+  "risk": "R2",
+  "status": "completed",
+  "updated_at": "2026-07-21T19:45:00Z",
+  "cost": {
+    "total_usd": 0.086
+  },
+  "repositories": [
+    {
+      "component": "API",
+      "repository": "company/payments-api",
+      "status": "healthy"
+    },
+    {
+      "component": "Frontend",
+      "repository": "company/payments-web",
+      "status": "healthy"
+    },
+    {
+      "component": "Deployment",
+      "repository": "company/payments-infra",
+      "status": "healthy"
+    }
+  ],
+  "events": [
+    {
+      "sequence": 1,
+      "step": "intake",
+      "actor": "service",
+      "status": "completed",
+      "cost_usd": 0.001
+    },
+    {
+      "sequence": 2,
+      "step": "refine",
+      "actor": "product",
+      "status": "completed",
+      "cost_usd": 0.012
+    },
+    {
+      "sequence": 3,
+      "step": "design",
+      "actor": "architecture",
+      "status": "completed",
+      "cost_usd": 0.018
+    },
+    {
+      "sequence": 4,
+      "step": "implement",
+      "actor": "developer",
+      "status": "completed",
+      "cost_usd": 0.025
+    },
+    {
+      "sequence": 5,
+      "step": "test",
+      "actor": "test",
+      "status": "completed",
+      "cost_usd": 0.008
+    },
+    {
+      "sequence": 6,
+      "step": "secure",
+      "actor": "security",
+      "status": "completed",
+      "cost_usd": 0.007
+    },
+    {
+      "sequence": 7,
+      "step": "review",
+      "actor": "reviewer",
+      "status": "completed",
+      "cost_usd": 0.009
+    },
+    {
+      "sequence": 8,
+      "step": "approve",
+      "actor": "human",
+      "status": "completed",
+      "cost_usd": 0
+    },
+    {
+      "sequence": 9,
+      "step": "release",
+      "actor": "release",
+      "status": "completed",
+      "cost_usd": 0.004
+    },
+    {
+      "sequence": 10,
+      "step": "observe",
+      "actor": "release",
+      "status": "completed",
+      "cost_usd": 0.002
+    }
+  ],
+  "evidence_bundle": [
+    {
+      "step": "intake",
+      "uri": "evidence://CHG-1001/intake.json",
+      "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "step": "refine",
+      "uri": "evidence://CHG-1001/refine.json",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    {
+      "step": "design",
+      "uri": "evidence://CHG-1001/design.json",
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    {
+      "step": "implement",
+      "uri": "evidence://CHG-1001/implement.json",
+      "sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+    },
+    {
+      "step": "test",
+      "uri": "evidence://CHG-1001/test.json",
+      "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+    },
+    {
+      "step": "secure",
+      "uri": "evidence://CHG-1001/secure.json",
+      "sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+    },
+    {
+      "step": "review",
+      "uri": "evidence://CHG-1001/review.json",
+      "sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    {
+      "step": "approve",
+      "uri": "evidence://CHG-1001/approve.json",
+      "sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+    },
+    {
+      "step": "release",
+      "uri": "evidence://CHG-1001/release.json",
+      "sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+    },
+    {
+      "step": "observe",
+      "uri": "evidence://CHG-1001/observe.json",
+      "sha256": "1010101010101010101010101010101010101010101010101010101010101010"
+    }
+  ]
+}
