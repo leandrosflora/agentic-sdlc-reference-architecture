@@ -1,0 +1,24 @@
+schema: spec-driven
+
+context: |
+  Reference architecture documentation-only (sem código de runtime) para uma
+  plataforma de engenharia de software orientada por agentes (agentic SDLC).
+  Domínio: 8 agentes de engenharia — product, architecture, developer, test,
+  security, reviewer, release, incident (ver policies/agent_authorization.rego
+  e docs/governance.md).
+  Artefatos: docs/ (arquitetura, governança, métricas, threat model, ADRs),
+  contracts/ (JSON Schema), policies/ (OPA/Rego), examples/ (instâncias
+  validáveis), scripts/validate.py (validador Python sem dependências).
+  Este repositório é um case aplicado de SDLC. Assuntos gerais de plataforma
+  de IA (FinOps, roteamento de modelo, versionamento de contrato) evoluem no
+  enterprise-ai-platform-reference-architecture e devem ser referenciados
+  aqui, não redefinidos.
+
+rules:
+  proposal:
+    - Mudança em contracts/*.schema.json é breaking change de contrato e exige uma ADR em docs/adr/.
+    - Nova regra em policies/agent_authorization.rego exige casos correspondentes em policies/agent_authorization_test.rego.
+    - Novo exemplo em examples/ deve validar contra o schema correspondente via scripts/validate.py.
+    - Assunto de FinOps/model routing/versionamento de contrato: referenciar o enterprise-ai-platform-reference-architecture em vez de redefinir localmente.
+  tasks:
+    - Rodar `python3 scripts/validate.py` e `opa test policies/` antes de considerar a mudança pronta.
