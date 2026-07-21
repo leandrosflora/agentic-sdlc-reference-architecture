@@ -1,0 +1,42 @@
+{
+  "api_version": "agentic-sdlc/v1",
+  "kind": "Project",
+  "metadata": {
+    "name": "payments-platform",
+    "owner": "team-payments"
+  },
+  "spec": {
+    "work_management": {
+      "provider": "jira",
+      "project": "PAY"
+    },
+    "source_control": {
+      "provider": "github",
+      "repositories": [
+        "company/payments-api",
+        "company/payments-web",
+        "company/payments-infra"
+      ]
+    },
+    "delivery": {
+      "provider": "argocd"
+    },
+    "observability": {
+      "provider": "dynatrace"
+    },
+    "autonomy": {
+      "max_risk": "R2",
+      "production_approval": "independent-human"
+    },
+    "agents": [
+      "product",
+      "architecture",
+      "developer",
+      "test",
+      "security",
+      "reviewer",
+      "release",
+      "incident"
+    ]
+  }
+}
