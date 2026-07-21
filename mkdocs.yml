@@ -35,6 +35,7 @@ nav:
       - Modelo de contexto: context-model.md
   - Operação:
       - Integração ponta a ponta: end-to-end-workflow.md
+      - P6 integração real: p6-real-integration.md
       - Product Agent funcional: product-agent.md
       - Jornada da mudança: change-journey.md
       - Change Set multi-repositório: multi-repository-change-set.md
