@@ -120,6 +120,15 @@ O [Product Agent](docs/product-agent.md) executa a primeira jornada real da refe
 GitHub Issue → OPA → Product Agent → critérios estruturados → comentário → evidence bundle
 ~~~
 
+## Integração ponta a ponta (P5)
+
+O runtime agora coordena Product → Architecture → Developer → Test → Security → Reviewer, pausa em uma aprovação humana segregada e vinculada ao digest, libera o artefato em um ambiente demo durável, observa sua saúde e executa rollback automático quando necessário.
+
+- [Especificação e operação do fluxo](docs/end-to-end-workflow.md)
+- [Implementação executável](https://github.com/leandrosflora/agentic-sdlc-runtime)
+- Caminho saudável: `python examples/end_to_end_demo.py`
+- Caminho de rollback: `python examples/end_to_end_demo.py --unhealthy`
+
 ## Implementações operacionais
 
 Este repositório mantém arquitetura, contratos, policies e golden paths. O código do runtime compartilhado fica no [agentic-sdlc-runtime](https://github.com/leandrosflora/agentic-sdlc-runtime). Os 8 papéis acima possuem definições e skeletons em repositórios próprios. Eles não precisam ser oito serviços persistentes: são executados pelo runtime compartilhado. Os repositórios são nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
