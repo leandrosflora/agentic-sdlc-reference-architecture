@@ -301,6 +301,21 @@ python3 scripts/validate.py
 
 O validador verifica JSON Schemas, exemplos, referências de agentes e invariantes de segregação de funções sem depender de pacotes externos.
 
+### Scaffolding canônico dos agentes
+
+Os 8 repositórios sdlc-&lt;role&gt;-agent permanecem autocontidos, então os módulos
+comuns (autorização OPA e seus testes) são cópias vendorizadas. A fonte única
+fica em `templates/agent/` e o desvio é verificado contra os checkouts irmãos:
+
+```bash
+python3 scripts/sync_agent_scaffolding.py          # verifica (exit 1 se houver drift)
+python3 scripts/sync_agent_scaffolding.py --apply  # reescreve os arquivos a partir do template
+```
+
+Para mudar o scaffolding comum, edite o template e rode `--apply`; testes
+específicos de um papel vivem em `tests/test_role_policy.py` de cada repo e não
+são tocados pelo sync.
+
 ## Roadmap de adoção
 
 1. **Assistido:** Product, Architecture e Developer geram propostas; humanos executam e aprovam.
