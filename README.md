@@ -77,6 +77,27 @@ python3 scripts/validate.py
 
 O golden path carrega o projeto, recebe um evento canônico, valida dependências de três repositórios, percorre agentes e gates, vincula aprovação ao conjunto e produz um evidence bundle determinístico.
 
+## Experiência e consumo
+
+A arquitetura possui uma camada consumível e publicável:
+
+- **MkDocs Material:** documentação navegável e publicação automática no GitHub Pages;
+- **Portal mínimo:** dashboard em [docs/portal/](docs/portal/index.html), desacoplado de framework e pronto para evoluir para plugin Backstage;
+- **GitHub Check:** o job Workflow, cost and evidence valida o golden path em cada PR;
+- **Comentário no PR:** resumo idempotente com mudança, risco, progresso, custo e evidências;
+- **Dashboard:** workflow por agente, Change Set, custo por etapa e evidence bundle.
+
+Após o merge, a documentação será publicada em:
+
+https://leandrosflora.github.io/agentic-sdlc-reference-architecture/
+
+Para visualizar localmente:
+
+~~~bash
+pip install -r requirements-docs.txt
+mkdocs serve
+~~~
+
 ## Implementações operacionais
 
 Este repositório é documentação de arquitetura, sem código de runtime. Os 8 papéis acima possuem definições e skeletons em repositórios próprios. Eles não precisam ser oito serviços persistentes: são executados pelo runtime compartilhado. Os repositórios são nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
@@ -215,12 +236,15 @@ As fórmulas e dimensões obrigatórias estão em [`docs/metrics.md`](docs/metri
 │   ├── change-journey.md      # fluxo ponta a ponta
 │   ├── context-model.md       # montagem e proteção de contexto
 │   ├── multi-repository-change-set.md # coordenação multi-repo
+│   ├── portal/                # dashboard operacional estático
 │   ├── governance.md          # papéis, gates e autorização
 │   ├── metrics.md             # SLOs e métricas
 │   └── threat-model.md        # ameaças e controles
 ├── examples/                  # workflow, change envelope e trilhas de eventos (aprovado, rejeitado, rollback), validáveis contra os schemas
 ├── policies/                  # policy-as-code (OPA/Rego)
-└── scripts/                   # validação e golden path executável
+├── scripts/                   # validação, golden path e renderização
+├── mkdocs.yml                 # navegação e tema da documentação
+└── requirements-docs.txt      # dependências fixadas do MkDocs
 ```
 
 ## Validação local
