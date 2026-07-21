@@ -46,3 +46,20 @@ O orquestrador é dono do estado durável; o worker mantém somente scratch stat
 Test e Security podem executar em paralelo. Falhas determinísticas retornam ao Developer. Architecture pode participar por subworkflow. Agentes não chamam outros agentes livremente: toda composição passa pelo orquestrador e pelo audit log.
 
 Cada execução limita passos, tokens, custo, duração, tool calls, retries, CPU, memória e egress. Ao atingir o limite, produz checkpoint e termina; nunca amplia o próprio budget.
+
+## Implementação de referência
+
+O modelo descrito nesta página está implementado em [agentic-sdlc-runtime](https://github.com/leandrosflora/agentic-sdlc-runtime). O runtime carrega definições declarativas dos oito papéis, monta contexto governado, chama um Model Gateway, limita tools pelo MCP Gateway, emite eventos e evidências e mantém checkpoints retomáveis.
+
+~~~mermaid
+flowchart LR
+  D["Agent Definition"] --> R["Shared Runtime"]
+  C["Context Builder"] --> R
+  R --> M["Fake ou Real Model Gateway"]
+  R --> T["MCP Gateway"]
+  R --> E["Events e Evidence"]
+  R --> P["Checkpoint"]
+  P -->|resume| R
+~~~
+
+A implementação local usa filesystem para demonstrar os contratos. Em produção, Evidence Store, Event Store e Checkpoint Store devem ser substituídos por backends duráveis sem alterar as definições dos agentes.
