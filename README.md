@@ -129,6 +129,10 @@ O runtime agora coordena Product → Architecture → Developer → Test → Sec
 - Caminho saudável: `python examples/end_to_end_demo.py`
 - Caminho de rollback: `python examples/end_to_end_demo.py --unhealthy`
 
+## P6 — Integração real controlada
+
+O [P6](docs/p6-real-integration.md) conecta GitHub Issue, agentes, quality gates, aprovação humana pelo Environment `demo`, release por digest, health check HTTP e rollback. A implementação está no [agentic-sdlc-runtime](https://github.com/leandrosflora/agentic-sdlc-runtime).
+
 ## Implementações operacionais
 
 Este repositório mantém arquitetura, contratos, policies e golden paths. O código do runtime compartilhado fica no [agentic-sdlc-runtime](https://github.com/leandrosflora/agentic-sdlc-runtime). Os 8 papéis acima possuem definições e skeletons em repositórios próprios. Eles não precisam ser oito serviços persistentes: são executados pelo runtime compartilhado. Os repositórios são nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
