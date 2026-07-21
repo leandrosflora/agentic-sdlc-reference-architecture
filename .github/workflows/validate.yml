@@ -15,6 +15,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate contracts and workflow invariants
         run: python3 scripts/validate.py
+      - name: Install documentation dependencies
+        run: pip install -r requirements-docs.txt
+      - name: Build MkDocs in strict mode
+        run: mkdocs build --strict
       - uses: open-policy-agent/setup-opa@v2
         with:
           version: latest
