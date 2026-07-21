@@ -142,3 +142,160 @@ test_incident_cannot_write_repository if {
 		"change": {"risk": "R1", "scope_approved": true},
 	}
 }
+
+# ---- requirements.update ----
+
+requirements_update_base := {
+	"action": "requirements.update",
+	"identity": {"project_id": "proj-1", "agent_role": "product"},
+	"resource": {"project_id": "proj-1"},
+	"change": {"risk": "R1"},
+}
+
+test_requirements_update_allowed_for_product_low_risk if {
+	allow with input as requirements_update_base
+}
+
+test_requirements_update_denied_for_non_product_role if {
+	denied := object.union(requirements_update_base, {"identity": {"project_id": "proj-1", "agent_role": "developer"}})
+	not allow with input as denied
+}
+
+test_requirements_update_denied_cross_project if {
+	denied := object.union(requirements_update_base, {"resource": {"project_id": "proj-2"}})
+	not allow with input as denied
+}
+
+test_requirements_update_denied_above_r1_risk if {
+	denied := object.union(requirements_update_base, {"change": {"risk": "R2"}})
+	not allow with input as denied
+}
+
+# ---- requirements.comment ----
+
+test_requirements_comment_allowed_for_reviewer if {
+	allow with input as {
+		"action": "requirements.comment",
+		"identity": {"project_id": "proj-1", "agent_role": "reviewer"},
+		"resource": {"project_id": "proj-1"},
+	}
+}
+
+test_requirements_comment_allowed_for_incident if {
+	allow with input as {
+		"action": "requirements.comment",
+		"identity": {"project_id": "proj-1", "agent_role": "incident"},
+		"resource": {"project_id": "proj-1"},
+	}
+}
+
+test_requirements_comment_denied_for_non_authorized_role if {
+	not allow with input as {
+		"action": "requirements.comment",
+		"identity": {"project_id": "proj-1", "agent_role": "developer"},
+		"resource": {"project_id": "proj-1"},
+	}
+}
+
+test_requirements_comment_denied_cross_project if {
+	not allow with input as {
+		"action": "requirements.comment",
+		"identity": {"project_id": "proj-1", "agent_role": "reviewer"},
+		"resource": {"project_id": "proj-2"},
+	}
+}
+
+# ---- architecture.update ----
+
+architecture_update_base := {
+	"action": "architecture.update",
+	"identity": {"project_id": "proj-1", "agent_role": "architecture"},
+	"resource": {"project_id": "proj-1"},
+	"change": {"risk": "R0"},
+}
+
+test_architecture_update_allowed_for_architecture_low_risk if {
+	allow with input as architecture_update_base
+}
+
+test_architecture_update_denied_for_developer if {
+	denied := object.union(architecture_update_base, {"identity": {"project_id": "proj-1", "agent_role": "developer"}})
+	not allow with input as denied
+}
+
+test_architecture_update_denied_cross_project if {
+	denied := object.union(architecture_update_base, {"resource": {"project_id": "proj-2"}})
+	not allow with input as denied
+}
+
+test_architecture_update_denied_above_r1_risk if {
+	denied := object.union(architecture_update_base, {"change": {"risk": "R2"}})
+	not allow with input as denied
+}
+
+# ---- architecture.propose ----
+
+architecture_propose_base := {
+	"action": "architecture.propose",
+	"identity": {"project_id": "proj-1", "agent_role": "developer"},
+	"resource": {"project_id": "proj-1"},
+	"change": {"risk": "R1"},
+}
+
+test_architecture_propose_allowed_for_developer_low_risk if {
+	allow with input as architecture_propose_base
+}
+
+test_architecture_propose_denied_for_non_developer_role if {
+	denied := object.union(architecture_propose_base, {"identity": {"project_id": "proj-1", "agent_role": "product"}})
+	not allow with input as denied
+}
+
+test_architecture_propose_denied_for_architecture_role if {
+	denied := object.union(architecture_propose_base, {"identity": {"project_id": "proj-1", "agent_role": "architecture"}})
+	not allow with input as denied
+}
+
+test_architecture_propose_denied_cross_project if {
+	denied := object.union(architecture_propose_base, {"resource": {"project_id": "proj-2"}})
+	not allow with input as denied
+}
+
+test_architecture_propose_denied_above_r1_risk if {
+	denied := object.union(architecture_propose_base, {"change": {"risk": "R2"}})
+	not allow with input as denied
+}
+
+# ---- architecture.comment ----
+
+test_architecture_comment_allowed_for_reviewer if {
+	allow with input as {
+		"action": "architecture.comment",
+		"identity": {"project_id": "proj-1", "agent_role": "reviewer"},
+		"resource": {"project_id": "proj-1"},
+	}
+}
+
+test_architecture_comment_allowed_for_security if {
+	allow with input as {
+		"action": "architecture.comment",
+		"identity": {"project_id": "proj-1", "agent_role": "security"},
+		"resource": {"project_id": "proj-1"},
+	}
+}
+
+test_architecture_comment_denied_for_non_authorized_role if {
+	not allow with input as {
+		"action": "architecture.comment",
+		"identity": {"project_id": "proj-1", "agent_role": "incident"},
+		"resource": {"project_id": "proj-1"},
+	}
+}
+
+test_architecture_comment_denied_cross_project if {
+	not allow with input as {
+		"action": "architecture.comment",
+		"identity": {"project_id": "proj-1", "agent_role": "security"},
+		"resource": {"project_id": "proj-2"},
+	}
+}
