@@ -112,13 +112,21 @@ O runtime está implementado em [agentic-sdlc-runtime](https://github.com/leandr
 
 As definições canônicas estão em [agents/](https://github.com/leandrosflora/agentic-sdlc-runtime/tree/master/agents). Os repositórios sdlc-role-agent continuam como adapters/scaffolds específicos de papel; não são serviços persistentes nem a fonte canônica do ciclo de execução.
 
+## Primeira vertical funcional
+
+O [Product Agent](docs/product-agent.md) executa a primeira jornada real da referência:
+
+~~~text
+GitHub Issue → OPA → Product Agent → critérios estruturados → comentário → evidence bundle
+~~~
+
 ## Implementações operacionais
 
 Este repositório mantém arquitetura, contratos, policies e golden paths. O código do runtime compartilhado fica no [agentic-sdlc-runtime](https://github.com/leandrosflora/agentic-sdlc-runtime). Os 8 papéis acima possuem definições e skeletons em repositórios próprios. Eles não precisam ser oito serviços persistentes: são executados pelo runtime compartilhado. Os repositórios são nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
 
 | Agente | Repositório | Estado |
 |---|---|---|
-| Product | [sdlc-product-agent](https://github.com/leandrosflora/sdlc-product-agent) | adapter/scaffold; definição canônica no runtime |
+| Product | [sdlc-product-agent](https://github.com/leandrosflora/sdlc-product-agent) | funcional: GitHub Issue → critérios → comentário → evidências |
 | Architecture | [sdlc-architecture-agent](https://github.com/leandrosflora/sdlc-architecture-agent) | adapter/scaffold; definição canônica no runtime |
 | Developer | [sdlc-developer-agent](https://github.com/leandrosflora/sdlc-developer-agent) | adapter/scaffold; definição canônica no runtime |
 | Test | [sdlc-test-agent](https://github.com/leandrosflora/sdlc-test-agent) | adapter/scaffold; definição canônica no runtime |
