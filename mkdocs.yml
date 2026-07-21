@@ -12,10 +12,10 @@ theme:
     - navigation.top
     - content.code.copy
     - content.tabs.link
-palette:
-  - scheme: slate
-    primary: deep purple
-    accent: cyan
+  palette:
+    - scheme: slate
+      primary: deep purple
+      accent: cyan
 markdown_extensions:
   - admonition
   - attr_list
