@@ -34,6 +34,7 @@ nav:
       - Runtime dos agentes: agent-runtime.md
       - Modelo de contexto: context-model.md
   - Operação:
+      - Integração ponta a ponta: end-to-end-workflow.md
       - Product Agent funcional: product-agent.md
       - Jornada da mudança: change-journey.md
       - Change Set multi-repositório: multi-repository-change-set.md
