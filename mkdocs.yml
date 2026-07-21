@@ -34,6 +34,7 @@ nav:
       - Runtime dos agentes: agent-runtime.md
       - Modelo de contexto: context-model.md
   - Operação:
+      - Product Agent funcional: product-agent.md
       - Jornada da mudança: change-journey.md
       - Change Set multi-repositório: multi-repository-change-set.md
       - Integrações: tool-integration-matrix.md
