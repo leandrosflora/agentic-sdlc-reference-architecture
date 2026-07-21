@@ -1,0 +1,72 @@
+[
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-3001",
+    "timestamp": "2026-07-19T10:00:00Z",
+    "trace_id": "c7f2b3d4e5f6071829304a5b6c7d8e91",
+    "change_id": "CHG-1044",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "agent", "id": "release-agent", "version": "2026.07.1" },
+    "action": "production.deploy",
+    "policy": { "decision": "allow", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 1200, "output_tokens": 300, "cost_usd": 0.05 },
+    "evidence_refs": ["s3://evidence/CHG-1044/deploy-marker.json"]
+  },
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-3002",
+    "timestamp": "2026-07-19T10:35:00Z",
+    "trace_id": "c7f2b3d4e5f6071829304a5b6c7d8e91",
+    "change_id": "CHG-1044",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "agent", "id": "incident-agent", "version": "2026.07.1" },
+    "action": "observability.read",
+    "policy": { "decision": "allow", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 4300, "output_tokens": 700, "cost_usd": 0.14 },
+    "evidence_refs": ["s3://evidence/CHG-1044/slo-breach-trace.json"]
+  },
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-3003",
+    "timestamp": "2026-07-19T10:40:00Z",
+    "trace_id": "c7f2b3d4e5f6071829304a5b6c7d8e91",
+    "change_id": "CHG-1044",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "agent", "id": "incident-agent", "version": "2026.07.1" },
+    "action": "incident.diagnose",
+    "policy": { "decision": "allow", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 5100, "output_tokens": 1100, "cost_usd": 0.20 },
+    "evidence_refs": ["s3://evidence/CHG-1044/incident-timeline.md"]
+  },
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-3004",
+    "timestamp": "2026-07-19T10:45:00Z",
+    "trace_id": "c7f2b3d4e5f6071829304a5b6c7d8e91",
+    "change_id": "CHG-1044",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "human", "id": "oncall@example.com", "version": "n/a" },
+    "action": "production.rollback.approve",
+    "policy": { "decision": "allow", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0 },
+    "evidence_refs": ["s3://evidence/CHG-1044/rollback-approval.json"]
+  },
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-3005",
+    "timestamp": "2026-07-19T10:47:00Z",
+    "trace_id": "c7f2b3d4e5f6071829304a5b6c7d8e91",
+    "change_id": "CHG-1044",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "agent", "id": "release-agent", "version": "2026.07.1" },
+    "action": "production.rollback",
+    "policy": { "decision": "allow", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 900, "output_tokens": 200, "cost_usd": 0.03 },
+    "evidence_refs": ["s3://evidence/CHG-1044/rollback-marker.json"]
+  }
+]

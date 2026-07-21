@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "change_id": "CHG-1042",
+  "project_id": "checkout-service",
+  "requirement": {
+    "source": "https://github.com/example-org/checkout-service/issues/482",
+    "title": "Adicionar validação de CEP no formulário de endereço",
+    "owner": "product-owner@example.com"
+  },
+  "risk": "R2",
+  "acceptance_criteria": [
+    "CEP inválido bloqueia o submit com mensagem clara",
+    "CEP válido preenche cidade/estado automaticamente",
+    "Cobertura de teste para os formatos de CEP suportados"
+  ],
+  "artifacts": [
+    {
+      "kind": "container-image",
+      "uri": "registry.example.com/checkout-service@sha256:522f26d73cb4181a48d57f3748a2d7f35377387fb60986365e5fceec85aab655",
+      "sha256": "522f26d73cb4181a48d57f3748a2d7f35377387fb60986365e5fceec85aab655"
+    }
+  ],
+  "rollback": {
+    "strategy": "redeploy do digest anterior via CI/CD, sem depender do agente que originou a mudança",
+    "verified": true
+  }
+}

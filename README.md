@@ -127,7 +127,7 @@ Veja a descrição completa em [`docs/architecture.md`](docs/architecture.md) e 
 - **Supply chain:** commits e artefatos assinados, SBOM, proveniência e promoção do mesmo digest entre ambientes.
 - **Memória segura:** namespaces por tenant/projeto, classificação de dados, retenção, fontes citadas e proteção contra prompt injection.
 - **Mudança segura:** canary/progressive delivery, error budget, kill switch, rollback testado e blast radius explícito.
-- **FinOps:** limite por execução e projeto, roteamento de modelo por risco, cache, alertas e atribuição de custo à mudança.
+- **FinOps:** limite por execução/projeto e atribuição de custo e tokens ao `change_id`. Roteamento de modelo por risco/qualidade e política de FinOps corporativa seguem o [FinOps Platform](https://github.com/leandrosflora/enterprise-ai-platform-reference-architecture/blob/main/docs/domains/finops-platform.md) e o [Model Selection Framework](https://github.com/leandrosflora/enterprise-ai-platform-reference-architecture/blob/main/docs/architecture/model-selection-framework.md) do repositório de plataforma.
 
 ## Contratos e rastreabilidade
 
@@ -139,6 +139,8 @@ requirement → acceptance criteria → ADR/contract → commit/PR → test/secu
 ```
 
 Eventos usam o envelope em [`contracts/agent-event.schema.json`](contracts/agent-event.schema.json), incluindo identidade, correlação, custo, tokens, decisão de política e referências de evidência.
+
+Versionamento e compatibilidade de contrato (SemVer, major imutável, sem remoção de campo dentro do mesmo major) seguem a convenção de [Contratos de Eventos](https://github.com/leandrosflora/enterprise-ai-platform-reference-architecture/blob/main/docs/contracts/events.md) do repositório de plataforma; este repositório não redefine a política, apenas a aplica aos schemas de `contracts/`.
 
 ## Métricas
 
@@ -164,7 +166,7 @@ As fórmulas e dimensões obrigatórias estão em [`docs/metrics.md`](docs/metri
 │   ├── governance.md          # papéis, gates e autorização
 │   ├── metrics.md             # SLOs e métricas
 │   └── threat-model.md        # ameaças e controles
-├── examples/                  # manifesto de workflow executável/validável
+├── examples/                  # workflow, change envelope e trilhas de eventos (aprovado, rejeitado, rollback), validáveis contra os schemas
 ├── policies/                  # policy-as-code (OPA/Rego)
 └── scripts/                   # validação local sem dependências externas
 ```

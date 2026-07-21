@@ -1,0 +1,72 @@
+[
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-2001",
+    "timestamp": "2026-07-20T13:05:00Z",
+    "trace_id": "b6f1a2c3d4e5f60718293a4b5c6d7e80",
+    "change_id": "CHG-1043",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "agent", "id": "architecture-agent", "version": "2026.07.1" },
+    "action": "architecture.design",
+    "policy": { "decision": "allow", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 8200, "output_tokens": 1400, "cost_usd": 0.31 },
+    "evidence_refs": ["s3://evidence/CHG-1043/adr-0012.md"]
+  },
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-2002",
+    "timestamp": "2026-07-20T14:20:00Z",
+    "trace_id": "b6f1a2c3d4e5f60718293a4b5c6d7e80",
+    "change_id": "CHG-1043",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "agent", "id": "developer-agent", "version": "2026.07.1" },
+    "action": "repository.write",
+    "policy": { "decision": "allow", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 15400, "output_tokens": 3800, "cost_usd": 0.62 },
+    "evidence_refs": ["git://checkout-service/pull/482"]
+  },
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-2003",
+    "timestamp": "2026-07-20T15:40:00Z",
+    "trace_id": "b6f1a2c3d4e5f60718293a4b5c6d7e80",
+    "change_id": "CHG-1043",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "agent", "id": "reviewer-agent", "version": "2026.07.1" },
+    "action": "review.assess",
+    "policy": { "decision": "require_approval", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 6100, "output_tokens": 900, "cost_usd": 0.18 },
+    "evidence_refs": ["s3://evidence/CHG-1043/review-opinion.json"]
+  },
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-2004",
+    "timestamp": "2026-07-20T16:10:00Z",
+    "trace_id": "b6f1a2c3d4e5f60718293a4b5c6d7e80",
+    "change_id": "CHG-1043",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "human", "id": "owner@example.com", "version": "n/a" },
+    "action": "review.reject",
+    "policy": { "decision": "deny", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0 },
+    "evidence_refs": ["s3://evidence/CHG-1043/rejection-rationale.md"]
+  },
+  {
+    "schema_version": "1.0",
+    "event_id": "EVT-2005",
+    "timestamp": "2026-07-21T09:15:00Z",
+    "trace_id": "b6f1a2c3d4e5f60718293a4b5c6d7e80",
+    "change_id": "CHG-1043",
+    "project_id": "checkout-service",
+    "workflow": { "id": "standard-change", "version": "1.0.0" },
+    "actor": { "type": "agent", "id": "developer-agent", "version": "2026.07.1" },
+    "action": "repository.write",
+    "policy": { "decision": "allow", "bundle_version": "2026.07.1" },
+    "usage": { "input_tokens": 9700, "output_tokens": 2100, "cost_usd": 0.39 },
+    "evidence_refs": ["git://checkout-service/pull/482#rework"]
+  }
+]

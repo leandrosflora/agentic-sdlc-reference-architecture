@@ -1,0 +1,17 @@
+# Aplica segregação de funções (SoD) também às mudanças deste repositório:
+# quem decide arquitetura não é necessariamente quem aprova política de
+# segurança/autorização, e vice-versa — o mesmo princípio descrito em
+# docs/governance.md para os agentes do domínio.
+#
+# Com um único mantenedor, este arquivo documenta a intenção e a fronteira;
+# passa a impor um segundo revisor humano assim que houver mais colaboradores.
+
+# Decisões de arquitetura e contratos
+/docs/adr/             @leandrosflora
+/docs/architecture.md  @leandrosflora
+/contracts/            @leandrosflora
+
+# Política de autorização e threat model
+/policies/             @leandrosflora
+/docs/threat-model.md  @leandrosflora
+/docs/governance.md    @leandrosflora

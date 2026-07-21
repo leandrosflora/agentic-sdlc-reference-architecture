@@ -37,7 +37,7 @@ Executa avaliações determinísticas e baseadas em modelo: schema, testes, segu
 
 ### Cost Controller
 
-Reserva budget antes da execução, contabiliza input/output/cache/tool cost e interrompe com checkpoint ao atingir limites. Model routing seleciona o menor modelo que satisfaz risco e qualidade; nenhuma redução de modelo contorna gates.
+Reserva budget antes da execução, contabiliza input/output/cache/tool cost e interrompe com checkpoint ao atingir limites, atribuindo tudo ao `change_id`. Seleção e roteamento de modelo por risco/qualidade seguem o [Model Selection Framework](https://github.com/leandrosflora/enterprise-ai-platform-reference-architecture/blob/main/docs/architecture/model-selection-framework.md) do repositório de plataforma; nenhuma redução de modelo contorna os gates deste repositório.
 
 ### Evidence Store, Audit Log e Traceability Graph
 
