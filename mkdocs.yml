@@ -1,0 +1,48 @@
+site_name: Agentic SDLC Reference Architecture
+site_description: Arquitetura governada para engenharia de software orientada por agentes
+site_url: https://leandrosflora.github.io/agentic-sdlc-reference-architecture/
+repo_url: https://github.com/leandrosflora/agentic-sdlc-reference-architecture
+repo_name: leandrosflora/agentic-sdlc-reference-architecture
+theme:
+  name: material
+  language: pt-BR
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.tabs.link
+palette:
+  - scheme: slate
+    primary: deep purple
+    accent: cyan
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+nav:
+  - Início: index.md
+  - Arquitetura:
+      - Visão geral: architecture.md
+      - Deployment: deployment.md
+      - Runtime dos agentes: agent-runtime.md
+      - Modelo de contexto: context-model.md
+  - Operação:
+      - Jornada da mudança: change-journey.md
+      - Change Set multi-repositório: multi-repository-change-set.md
+      - Integrações: tool-integration-matrix.md
+      - Governança: governance.md
+  - Garantias:
+      - Threat model: threat-model.md
+      - Métricas: metrics.md
+  - Consumir:
+      - Portal e dashboard: portal-overview.md
+      - Golden path: golden-path.md
+  - ADRs:
+      - Núcleo agnóstico: adr/0001-agnostic-core-and-sdlc-adapters.md

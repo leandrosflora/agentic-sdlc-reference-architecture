@@ -108,3 +108,13 @@ O orquestrador faz checkpoint entre etapas. Chamadas a modelo e ferramenta usam 
 ## Feedback sem autoenvenenamento
 
 Telemetria e incidentes alimentam um staging de conhecimento. Conteúdo só entra na memória promovida após sanitização, deduplicação, verificação de origem e aprovação do owner. Prompts, políticas e conjuntos de avaliação são versionados e promovidos por pipeline separado; nenhum agente altera seus próprios controles.
+
+## Decisões operacionais relacionadas
+
+- [ADR 0001 — núcleo agnóstico com adaptadores](adr/0001-agnostic-core-and-sdlc-adapters.md)
+- [Topologia de deployment](deployment.md)
+- [Modelo de runtime dos agentes](agent-runtime.md)
+- [Matriz agente × ferramenta × operação](tool-integration-matrix.md)
+- [Jornada completa de uma mudança](change-journey.md)
+
+O núcleo da plataforma é independente de fornecedor. GitHub, Jira, Azure DevOps, IDEs e ChatOps são canais ou sistemas de registro integrados por adaptadores. Os papéis de agente são definições lógicas executadas como workers efêmeros por um runtime compartilhado; o orquestrador, e não os agentes ou ferramentas externas, mantém o estado canônico.

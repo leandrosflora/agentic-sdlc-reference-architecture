@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Dashboard operacional da Agentic SDLC Platform">
+  <title>Agentic SDLC · Control Center</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><span class="mark">A</span><strong>Agentic SDLC</strong><small>Control Center</small></div>
+    <a href="../">Documentação</a>
+  </header>
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">WORKFLOW OPERACIONAL</p>
+        <h1 id="change-title">Carregando mudança…</h1>
+        <p id="change-meta" class="muted"></p>
+      </div>
+      <span id="status" class="status">—</span>
+    </section>
+
+    <section id="metrics" class="metrics" aria-label="Indicadores"></section>
+
+    <div class="layout">
+      <section class="panel flow-panel">
+        <div class="panel-title"><div><p class="eyebrow">EXECUÇÃO</p><h2>Workflow</h2></div><span id="progress-label"></span></div>
+        <div class="progress"><i id="progress-bar"></i></div>
+        <ol id="workflow" class="workflow"></ol>
+      </section>
+
+      <aside>
+        <section class="panel">
+          <p class="eyebrow">CHANGE SET</p>
+          <h2>Componentes</h2>
+          <div id="repositories"></div>
+        </section>
+        <section class="panel">
+          <p class="eyebrow">FINOPS</p>
+          <h2>Custo por etapa</h2>
+          <div id="costs"></div>
+        </section>
+      </aside>
+    </div>
+
+    <section class="panel evidence-panel">
+      <div class="panel-title"><div><p class="eyebrow">AUDITORIA</p><h2>Evidence bundle</h2></div><span id="evidence-count"></span></div>
+      <div class="table-wrap">
+        <table><thead><tr><th>Etapa</th><th>URI</th><th>SHA-256</th></tr></thead><tbody id="evidence"></tbody></table>
+      </div>
+    </section>
+  </main>
+  <footer>Reference implementation · dados demonstrativos gerados pelo golden path</footer>
+  <script src="app.js"></script>
+</body>
+</html>

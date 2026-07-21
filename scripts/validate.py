@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -83,6 +85,14 @@ def validate_examples_against_contracts() -> None:
 
     validate_instance(load_json("examples/change-envelope.instance.json"), change_envelope_schema)
 
+    pairs = (
+        ("examples/project-manifest.instance.json", "contracts/project-manifest.schema.json"),
+        ("examples/canonical-integration.instance.json", "contracts/canonical-integration.schema.json"),
+        ("examples/change-set.instance.json", "contracts/change-set.schema.json"),
+    )
+    for instance_path, schema_path in pairs:
+        validate_instance(load_json(instance_path), load_json(schema_path))
+
     for relative_path in (
         "examples/agent-events.rejected-rework.json",
         "examples/agent-events.incident-rollback.json",
@@ -115,6 +125,68 @@ def validate_workflow() -> None:
     assert workflow["controls"]["human_approval_for_production"] is True
 
 
+
+def validate_change_set() -> None:
+    change_set = load_json("examples/change-set.instance.json")
+    repositories = {item["id"]: item for item in change_set["repositories"]}
+    assert set(repositories) == set(change_set["deployment_order"])
+    completed: set[str] = set()
+    for repository_id in change_set["deployment_order"]:
+        assert set(repositories[repository_id]["depends_on"]).issubset(completed)
+        completed.add(repository_id)
+    assert change_set["rollback"]["order"] == list(reversed(change_set["deployment_order"]))
+
+
+def validate_golden_path() -> None:
+    completed = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/run_golden_path.py"), "--compact"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    result = json.loads(completed.stdout)
+    assert result["status"] == "completed"
+    assert [event["step"] for event in result["events"]] == [
+        "intake", "refine", "design", "implement", "test", "secure",
+        "review", "approve", "release", "observe",
+    ]
+    assert all(event["status"] == "completed" for event in result["events"])
+    assert len(result["evidence_bundle"]) == len(result["events"])
+
+
+
+def validate_consumption_layer() -> None:
+    for relative_path in (
+        "mkdocs.yml",
+        "docs/index.md",
+        "docs/portal/index.html",
+        "docs/portal/styles.css",
+        "docs/portal/app.js",
+        "docs/portal/dashboard-data.json",
+        ".github/workflows/agentic-feedback.yml",
+        ".github/workflows/pages.yml",
+    ):
+        assert (ROOT / relative_path).is_file(), f"missing consumption artifact: {relative_path}"
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as directory:
+        dashboard_path = Path(directory) / "dashboard.json"
+        summary_path = Path(directory) / "summary.md"
+        subprocess.run(
+            [sys.executable, str(ROOT / "scripts/render_consumption_artifacts.py"),
+             "--dashboard", str(dashboard_path), "--summary", str(summary_path)],
+            check=True,
+        )
+        dashboard = json.loads(dashboard_path.read_text(encoding="utf-8"))
+        summary = summary_path.read_text(encoding="utf-8")
+        assert dashboard["status"] == "completed"
+        assert dashboard["cost"]["total_usd"] > 0
+        assert len(dashboard["events"]) == len(dashboard["evidence_bundle"])
+        assert len(dashboard["repositories"]) >= 1
+        assert "<!-- agentic-sdlc-summary -->" in summary
+        assert dashboard["change_id"] in summary
+
+
 def validate_docs() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     for agent in EXPECTED_AGENTS:
@@ -125,9 +197,18 @@ def validate_docs() -> None:
 
 
 if __name__ == "__main__":
-    for path in ("contracts/change-envelope.schema.json", "contracts/agent-event.schema.json"):
+    for path in (
+        "contracts/change-envelope.schema.json",
+        "contracts/agent-event.schema.json",
+        "contracts/project-manifest.schema.json",
+        "contracts/canonical-integration.schema.json",
+        "contracts/change-set.schema.json",
+    ):
         validate_schema(path)
     validate_workflow()
     validate_docs()
     validate_examples_against_contracts()
-    print("OK: schemas, workflow, segregation of duties, controls, examples, and documentation")
+    validate_change_set()
+    validate_golden_path()
+    validate_consumption_layer()
+    print("OK: contracts, golden path, portal, dashboard, PR feedback, controls, and documentation")

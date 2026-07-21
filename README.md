@@ -48,9 +48,59 @@ Cada transição produz um **evidence bundle** assinado; o orquestrador somente 
 
 A matriz detalhada de permissões e gates está em [`docs/governance.md`](docs/governance.md).
 
+## Modelo operacional
+
+A plataforma adota **núcleo agnóstico com adaptadores específicos por ferramenta**. Os agentes executam como workers efêmeros em um runtime compartilhado; GitHub, Jira, Azure DevOps, IDEs e ChatOps funcionam como canais, sistemas de registro ou executores. O estado canônico permanece no orquestrador durável.
+
+- [ADR do núcleo agnóstico e adaptadores](docs/adr/0001-agnostic-core-and-sdlc-adapters.md)
+- [Topologia de deployment](docs/deployment.md)
+- [Modelo de runtime dos agentes](docs/agent-runtime.md)
+- [Matriz agente × ferramenta × operação](docs/tool-integration-matrix.md)
+- [Jornada completa de uma mudança](docs/change-journey.md)
+
+## Artefatos implementáveis
+
+O P1 adiciona contratos e um golden path executável, sem dependências externas:
+
+- [Manifesto de onboarding](contracts/project-manifest.schema.json) e [exemplo](examples/project-manifest.instance.json)
+- [Contrato canônico de integração](contracts/canonical-integration.schema.json) e [exemplo](examples/canonical-integration.instance.json)
+- [Modelo de contexto](docs/context-model.md)
+- [Change Set multi-repositório](docs/multi-repository-change-set.md), [schema](contracts/change-set.schema.json) e [exemplo](examples/change-set.instance.json)
+- [Golden path executável](scripts/run_golden_path.py)
+
+Execute:
+
+~~~bash
+python3 scripts/run_golden_path.py
+python3 scripts/validate.py
+~~~
+
+O golden path carrega o projeto, recebe um evento canônico, valida dependências de três repositórios, percorre agentes e gates, vincula aprovação ao conjunto e produz um evidence bundle determinístico.
+
+## Experiência e consumo
+
+A arquitetura possui uma camada consumível e publicável:
+
+- **MkDocs Material:** documentação navegável e publicação automática no GitHub Pages;
+- **Portal mínimo:** dashboard em [docs/portal/](docs/portal/index.html), desacoplado de framework e pronto para evoluir para plugin Backstage;
+- **GitHub Check:** o job Workflow, cost and evidence valida o golden path em cada PR;
+- **Comentário no PR:** resumo idempotente com mudança, risco, progresso, custo e evidências;
+- **Dashboard:** workflow por agente, Change Set, custo por etapa e evidence bundle.
+
+Após o merge, a documentação será publicada em:
+
+https://leandrosflora.github.io/agentic-sdlc-reference-architecture/
+
+Para visualizar localmente:
+
+~~~bash
+pip install -r requirements-docs.txt
+mkdocs serve
+~~~
+
 ## Implementações operacionais
 
-Este repositório é documentação de arquitetura, sem código de runtime. Os 8 papéis acima têm implementação operacional em repositórios próprios, um por agente, nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
+Este repositório é documentação de arquitetura, sem código de runtime. Os 8 papéis acima possuem definições e skeletons em repositórios próprios. Eles não precisam ser oito serviços persistentes: são executados pelo runtime compartilhado. Os repositórios são nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
 
 | Agente | Repositório | Estado |
 |---|---|---|
@@ -176,16 +226,25 @@ As fórmulas e dimensões obrigatórias estão em [`docs/metrics.md`](docs/metri
 
 ```text
 .
-├── contracts/                 # schemas de eventos e mudanças
+├── contracts/                 # schemas de eventos, onboarding, integração e Change Set
 ├── docs/
 │   ├── adr/                   # decisões arquiteturais
-│   ├── architecture.md        # componentes, fluxos e deployment
+│   ├── architecture.md        # componentes e fluxos
+│   ├── deployment.md          # topologia e trust zones
+│   ├── agent-runtime.md       # execução, estado e composição
+│   ├── tool-integration-matrix.md # agentes e ferramentas
+│   ├── change-journey.md      # fluxo ponta a ponta
+│   ├── context-model.md       # montagem e proteção de contexto
+│   ├── multi-repository-change-set.md # coordenação multi-repo
+│   ├── portal/                # dashboard operacional estático
 │   ├── governance.md          # papéis, gates e autorização
 │   ├── metrics.md             # SLOs e métricas
 │   └── threat-model.md        # ameaças e controles
 ├── examples/                  # workflow, change envelope e trilhas de eventos (aprovado, rejeitado, rollback), validáveis contra os schemas
 ├── policies/                  # policy-as-code (OPA/Rego)
-└── scripts/                   # validação local sem dependências externas
+├── scripts/                   # validação, golden path e renderização
+├── mkdocs.yml                 # navegação e tema da documentação
+└── requirements-docs.txt      # dependências fixadas do MkDocs
 ```
 
 ## Validação local

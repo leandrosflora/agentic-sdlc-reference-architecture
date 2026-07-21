@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/canonical-integration.schema.json",
+  "title": "Canonical SDLC integration message",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "message_id",
+    "direction",
+    "kind",
+    "source",
+    "occurred_at",
+    "correlation",
+    "subject",
+    "payload_ref"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "message_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "direction": {
+      "enum": [
+        "event",
+        "command",
+        "result"
+      ]
+    },
+    "kind": {
+      "enum": [
+        "WorkItem",
+        "Requirement",
+        "Approval",
+        "Repository",
+        "ChangeSet",
+        "PullRequest",
+        "Evidence",
+        "Build",
+        "Artifact",
+        "Deployment",
+        "Telemetry",
+        "Incident"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter",
+        "provider"
+      ],
+      "properties": {
+        "adapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "occurred_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project_id",
+        "change_id",
+        "trace_id"
+      ],
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "change_id": {
+          "type": "string",
+          "pattern": "^CHG-[0-9]{4,}$"
+        },
+        "trace_id": {
+          "type": "string",
+          "minLength": 16
+        }
+      }
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "external_id",
+        "canonical_uri"
+      ],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonical_uri": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "payload_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "uri",
+        "sha256"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}
