@@ -1,0 +1,18 @@
+{
+  "id": "standard-change",
+  "version": "1.0.0",
+  "agents": ["product", "architecture", "developer", "test", "security", "reviewer", "release", "incident"],
+  "steps": [
+    { "id": "refine", "agent": "product", "requires": [], "produces": ["requirement", "acceptance-criteria"] },
+    { "id": "design", "agent": "architecture", "requires": ["refine"], "produces": ["adr", "contracts", "blast-radius"] },
+    { "id": "implement", "agent": "developer", "requires": ["design"], "produces": ["commit", "pull-request"] },
+    { "id": "verify", "agent": "test", "requires": ["implement"], "produces": ["test-evidence"] },
+    { "id": "secure", "agent": "security", "requires": ["implement"], "produces": ["security-evidence"] },
+    { "id": "review", "agent": "reviewer", "requires": ["verify", "secure"], "produces": ["review-decision"] },
+    { "id": "approve", "agent": "human", "requires": ["review"], "produces": ["digest-bound-approval"] },
+    { "id": "release", "agent": "release", "requires": ["approve"], "produces": ["deployment", "rollback-reference"] },
+    { "id": "observe", "agent": "incident", "requires": ["release"], "produces": ["production-feedback"] }
+  ],
+  "budgets": { "max_tokens": 500000, "max_cost_usd": 25, "max_duration_minutes": 240 },
+  "controls": { "default_deny": true, "human_approval_for_production": true, "ephemeral_execution": true }
+}
