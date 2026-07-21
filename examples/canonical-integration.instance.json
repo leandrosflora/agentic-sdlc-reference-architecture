@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "message_id": "MSG-0001",
+  "direction": "event",
+  "kind": "WorkItem",
+  "source": {
+    "adapter": "jira-v1",
+    "provider": "jira"
+  },
+  "occurred_at": "2026-07-21T19:30:00Z",
+  "correlation": {
+    "project_id": "payments-platform",
+    "change_id": "CHG-1001",
+    "trace_id": "0123456789abcdef"
+  },
+  "subject": {
+    "external_id": "PAY-142",
+    "canonical_uri": "urn:agentic-sdlc:work-item:PAY-142"
+  },
+  "payload_ref": {
+    "uri": "evidence://CHG-1001/intake/PAY-142.json",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+}
