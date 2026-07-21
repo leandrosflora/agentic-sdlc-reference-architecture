@@ -24,7 +24,7 @@ flowchart TB
   WEB --> INFRA
 ~~~
 
-O schema está em [change-set.schema.json](../contracts/change-set.schema.json) e o exemplo em [change-set.instance.json](../examples/change-set.instance.json).
+O schema está em [change-set.schema.json](https://github.com/leandrosflora/agentic-sdlc-reference-architecture/blob/main/contracts/change-set.schema.json) e o exemplo em [change-set.instance.json](https://github.com/leandrosflora/agentic-sdlc-reference-architecture/blob/main/examples/change-set.instance.json).
 
 ## Estratégias
 
