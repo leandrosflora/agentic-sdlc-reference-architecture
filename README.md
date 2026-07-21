@@ -48,6 +48,23 @@ Cada transição produz um **evidence bundle** assinado; o orquestrador somente 
 
 A matriz detalhada de permissões e gates está em [`docs/governance.md`](docs/governance.md).
 
+## Implementações operacionais
+
+Este repositório é documentação de arquitetura, sem código de runtime. Os 8 papéis acima têm implementação operacional em repositórios próprios, um por agente, nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
+
+| Agente | Repositório | Estado |
+|---|---|---|
+| Product | [sdlc-product-agent](https://github.com/leandrosflora/sdlc-product-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
+| Architecture | [sdlc-architecture-agent](https://github.com/leandrosflora/sdlc-architecture-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
+| Developer | [sdlc-developer-agent](https://github.com/leandrosflora/sdlc-developer-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
+| Test | [sdlc-test-agent](https://github.com/leandrosflora/sdlc-test-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
+| Security | [sdlc-security-agent](https://github.com/leandrosflora/sdlc-security-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
+| Reviewer | [sdlc-reviewer-agent](https://github.com/leandrosflora/sdlc-reviewer-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
+| Release | [sdlc-release-agent](https://github.com/leandrosflora/sdlc-release-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
+| Incident | [sdlc-incident-agent](https://github.com/leandrosflora/sdlc-incident-agent) | skeleton: autorização via OPA + CLI, ações ainda stub |
+
+Cada repo chama `opa eval` diretamente contra o rego deste repositório (por padrão, checkout irmão no mesmo diretório pai) — a política de autorização não é duplicada nos agentes. As ações do papel (ex.: `repository.write` do developer, `production.deploy` do release) ainda são handlers stub: autorizadas ou negadas de acordo com a política real, mas sem efeito nem chamada a LLM implementados.
+
 ## Arquitetura
 
 ```mermaid
