@@ -48,9 +48,19 @@ Cada transição produz um **evidence bundle** assinado; o orquestrador somente 
 
 A matriz detalhada de permissões e gates está em [`docs/governance.md`](docs/governance.md).
 
+## Modelo operacional
+
+A plataforma adota **núcleo agnóstico com adaptadores específicos por ferramenta**. Os agentes executam como workers efêmeros em um runtime compartilhado; GitHub, Jira, Azure DevOps, IDEs e ChatOps funcionam como canais, sistemas de registro ou executores. O estado canônico permanece no orquestrador durável.
+
+- [ADR do núcleo agnóstico e adaptadores](docs/adr/0001-agnostic-core-and-sdlc-adapters.md)
+- [Topologia de deployment](docs/deployment.md)
+- [Modelo de runtime dos agentes](docs/agent-runtime.md)
+- [Matriz agente × ferramenta × operação](docs/tool-integration-matrix.md)
+- [Jornada completa de uma mudança](docs/change-journey.md)
+
 ## Implementações operacionais
 
-Este repositório é documentação de arquitetura, sem código de runtime. Os 8 papéis acima têm implementação operacional em repositórios próprios, um por agente, nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
+Este repositório é documentação de arquitetura, sem código de runtime. Os 8 papéis acima possuem definições e skeletons em repositórios próprios. Eles não precisam ser oito serviços persistentes: são executados pelo runtime compartilhado. Os repositórios são nomeados `sdlc-<role>-agent` onde `<role>` é o valor de `agent_role` usado em [`policies/agent_authorization.rego`](policies/agent_authorization.rego):
 
 | Agente | Repositório | Estado |
 |---|---|---|
@@ -179,7 +189,11 @@ As fórmulas e dimensões obrigatórias estão em [`docs/metrics.md`](docs/metri
 ├── contracts/                 # schemas de eventos e mudanças
 ├── docs/
 │   ├── adr/                   # decisões arquiteturais
-│   ├── architecture.md        # componentes, fluxos e deployment
+│   ├── architecture.md        # componentes e fluxos
+│   ├── deployment.md          # topologia e trust zones
+│   ├── agent-runtime.md       # execução, estado e composição
+│   ├── tool-integration-matrix.md # agentes e ferramentas
+│   ├── change-journey.md      # fluxo ponta a ponta
 │   ├── governance.md          # papéis, gates e autorização
 │   ├── metrics.md             # SLOs e métricas
 │   └── threat-model.md        # ameaças e controles
